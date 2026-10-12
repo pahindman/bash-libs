@@ -1,12 +1,12 @@
-# bash-helpers
+# bash-libs
 
-[![CI](https://github.com/pahindman/bash-helpers/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pahindman/bash-helpers/actions/workflows/ci.yml)
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pahindman/bash-helpers/main.svg)](https://results.pre-commit.ci/latest/github/pahindman/bash-helpers/main)
+[![CI](https://github.com/pahindman/bash-libs/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pahindman/bash-libs/actions/workflows/ci.yml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/pahindman/bash-libs/main.svg)](https://results.pre-commit.ci/latest/github/pahindman/bash-libs/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A small collection of Bash utility scripts for terminal status indicators and argument parsing. The scripts are designed to be sourced from other Bash scripts rather than executed directly.
 
-## Included helpers
+## Included libs
 
 ### `getopt.bash`
 
@@ -70,7 +70,7 @@ Low-level terminal helpers for saving/restoring cursor position, moving the curs
 
 Manages chained signal traps so multiple scripts or modules can append and remove handlers without clobbering each other.
 
-## Installing the helpers
+## Installing the libs
 
 The repository includes a `Makefile` that links each top-level `*.bash` helper into `$HOME/.local/bin` by default:
 
@@ -116,5 +116,5 @@ bats test --print-output-on-failure
 
 - `*.bash` — sourceable Bash helper libraries
 - `test/*.bats` — Bats coverage for the helper APIs
-- `Makefile` — install/uninstall helpers into a `bin` directory
+- `Makefile` — install/uninstall libs into a `bin` directory
 - `.github/workflows/ci.yml` — CI test workflow
