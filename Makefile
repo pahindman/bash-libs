@@ -1,6 +1,6 @@
 # Default install directory
 PREFIX ?= $(HOME)/.local
-BIN_DIR := $(PREFIX)/bin
+SHARE_DIR := $(PREFIX)/share/bash-libs
 REPO_DIR := $(shell pwd)
 
 # Use symlinks unless the user specifies otherwise
@@ -8,7 +8,7 @@ USE_SYMLINKS ?= 1
 
 # Find all *.bash files at the base of the repo
 SCRIPTS := $(wildcard *.bash)
-INSTALLED_SCRIPTS := $(addprefix $(BIN_DIR)/, $(SCRIPTS))
+INSTALLED_SCRIPTS := $(addprefix $(SHARE_DIR)/, $(SCRIPTS))
 
 #### INSTALL TARGETS ####
 ifeq ($(USE_SYMLINKS),1)
@@ -22,13 +22,13 @@ endif
 install: install-scripts
 
 install-scripts: $(INSTALLED_SCRIPTS)
-	@echo "Script installation complete. Ensure $(BIN_DIR) is in your PATH."
+	@echo "Installation complete.  Set BASH_LIB_DIR=$(SHARE_DIR) in your environment."
 
-$(BIN_DIR)/%.bash: %.bash | $(BIN_DIR)
+$(SHARE_DIR)/%.bash: %.bash | $(SHARE_DIR)
 	@$(INSTALL_CMD)
 
-$(BIN_DIR):
-	@mkdir -p $(BIN_DIR)
+$(SHARE_DIR):
+	@mkdir -p $(SHARE_DIR)
 
 #### UNINSTALL TARGETS ####
 .PHONY: uninstall uninstall-scripts
@@ -38,7 +38,7 @@ uninstall: uninstall-scripts
 # Uninstall scripts only if they are symlinks pointing to the repo
 uninstall-scripts:
 	@for script in $(SCRIPTS); do \
-		installed_script="$(BIN_DIR)/$$script"; \
+		installed_script="$(SHARE_DIR)/$$script"; \
 		if [ "$(USE_SYMLINKS)" -eq 1 ]; then \
 			if [ -L "$$installed_script" ]; then \
 				link_target=$$(readlink "$$installed_script"); \
