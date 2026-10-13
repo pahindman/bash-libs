@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source progress_bar.bash
-source spinner.bash
+source "$BASH_LIB_DIR/progress_bar.bash"
+source "$BASH_LIB_DIR/spinner.bash"
 
 time=0.1
 total_work=10

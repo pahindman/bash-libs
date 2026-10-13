@@ -5,6 +5,8 @@ setup() {
 	# get the containing directory of this file
 	DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" >/dev/null 2>&1 && pwd)"
 	PATH="$DIR:$PATH"
+	export BASH_LIB_DIR
+	BASH_LIB_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." >/dev/null 2>&1 && pwd)"
 }
 
 teardown() {

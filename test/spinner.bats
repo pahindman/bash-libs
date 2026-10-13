@@ -6,6 +6,8 @@ setup() {
 
 	export LINES=24
 	export COLUMNS=80
+	export BASH_LIB_DIR
+	BASH_LIB_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." >/dev/null 2>&1 && pwd)"
 }
 
 teardown() {
@@ -20,7 +22,7 @@ export -f do_work
 
 do_work_with_automatic_spinner_at_cursor() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		automatic_spinner::start_at_cursor "Spinner..."
 		do_work
 		spinner::stop "done"
@@ -29,7 +31,7 @@ do_work_with_automatic_spinner_at_cursor() {
 
 do_work_with_automatic_spinner_in_margin() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		automatic_spinner::start_in_margin "Spinner..."
 		do_work
 		spinner::stop "done"
@@ -38,7 +40,7 @@ do_work_with_automatic_spinner_in_margin() {
 
 do_work_with_automatic_spinner_at_cursor_and_custom_sleep_time() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		automatic_spinner::start_at_cursor "Spinner..." 0.2
 		do_work
 		spinner::stop "done"
@@ -47,7 +49,7 @@ do_work_with_automatic_spinner_at_cursor_and_custom_sleep_time() {
 
 do_work_with_automatic_spinner_in_margin_and_custom_sleep_time() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		automatic_spinner::start_in_margin "Spinner..." 0.2
 		do_work
 		spinner::stop "done"
@@ -56,7 +58,7 @@ do_work_with_automatic_spinner_in_margin_and_custom_sleep_time() {
 
 do_work_with_manual_spinner_at_cursor() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		manual_spinner::start_at_cursor "Spinner..."
 		do_work
 		spinner::stop "done"
@@ -65,7 +67,7 @@ do_work_with_manual_spinner_at_cursor() {
 
 do_work_with_manual_spinner_in_margin() {
 	bash -c '
-		source spinner.bash
+		source "$BASH_LIB_DIR/spinner.bash"
 		manual_spinner::start_in_margin "Spinner..."
 		do_work
 		spinner::stop "done"
@@ -115,7 +117,7 @@ do_work_with_manual_spinner_in_margin() {
 
 @test "automatic spinner in margin installs parent-shell cleanup trap" {
 	bash -c '
-	source spinner.bash
+	source "$BASH_LIB_DIR/spinner.bash"
 	automatic_spinner::start_in_margin "Spinner..."
 	trap -p EXIT
 	spinner::stop "done"

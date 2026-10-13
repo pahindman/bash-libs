@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source getopt.bash "ho:" "help,opt:" "$0" "$@"
+source "$BASH_LIB_DIR/getopt.bash" "ho:" "help,opt:" "$0" "$@"
 
 while true; do
 	opt=$1

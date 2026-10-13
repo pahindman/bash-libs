@@ -1,6 +1,8 @@
 setup() {
 	load 'test_helper/bats-support/load'
 	load 'test_helper/bats-assert/load'
+
+	BASH_LIB_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." >/dev/null 2>&1 && pwd)"
 }
 
 teardown() {
@@ -10,14 +12,14 @@ teardown() {
 # bats file_tags=trap
 
 @test "appending a handler for a signal that has no existing handlers works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	run trap -p EXIT
 	assert_output --partial "first_test_handler"
 }
 
 @test "appending a second handler works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	run trap -p EXIT
@@ -26,7 +28,7 @@ teardown() {
 }
 
 @test "removing first handler works and leaves second handler intact" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::remove_handler_for_signal first_test_handler EXIT
@@ -36,7 +38,7 @@ teardown() {
 }
 
 @test "removing second handler works and leaves first handler intact" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::remove_handler_for_signal second_test_handler EXIT
@@ -46,7 +48,7 @@ teardown() {
 }
 
 @test "removing a handler that is not present is a no-op" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::remove_handler_for_signal second_test_handler EXIT
 	run trap -p EXIT
@@ -55,7 +57,7 @@ teardown() {
 }
 
 @test "appending another copy of first handler works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::append_handler_for_signal first_test_handler EXIT
@@ -64,7 +66,7 @@ teardown() {
 }
 
 @test "removing middle handler works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::append_handler_for_signal first_test_handler EXIT
@@ -75,7 +77,7 @@ teardown() {
 }
 
 @test "removing last matching duplicate handler works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal first_test_handler EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::append_handler_for_signal first_test_handler EXIT
@@ -86,14 +88,14 @@ teardown() {
 }
 
 @test "adding handler with whitespace works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal 'echo   "  hello"  ' EXIT
 	run trap -p EXIT
 	assert_output --partial 'echo   "  hello"  '
 }
 
 @test "removing handler with whitespace works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal 'echo   "  hello"  ' EXIT
 	trap::remove_handler_for_signal 'echo   "  hello"  ' EXIT
 	run trap -p EXIT
@@ -101,7 +103,7 @@ teardown() {
 }
 
 @test "removing handler with regex characters works" {
-	source trap.bash
+	source "$BASH_LIB_DIR/trap.bash"
 	trap::append_handler_for_signal 'printf "%s" "[^a-z]*.txt"' EXIT
 	trap::append_handler_for_signal second_test_handler EXIT
 	trap::remove_handler_for_signal 'printf "%s" "[^a-z]*.txt"' EXIT

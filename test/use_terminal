@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-source terminal.bash
-source trap.bash
+source "$BASH_LIB_DIR/terminal.bash"
+source "$BASH_LIB_DIR/trap.bash"
 
 # If no margin size was provided, default to 5
 num=${1:-5}

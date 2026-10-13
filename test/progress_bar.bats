@@ -6,6 +6,7 @@ setup() {
 
 	LINES=24
 	COLUMNS=80
+	BASH_LIB_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." >/dev/null 2>&1 && pwd)"
 }
 
 teardown() {
@@ -25,7 +26,7 @@ do_work() {
 }
 
 do_work_with_margin_progress_bar() {
-	source progress_bar.bash
+	source "$BASH_LIB_DIR/progress_bar.bash"
 	progress_bar::start
 	do_work
 	progress_bar::stop

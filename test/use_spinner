@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source spinner.bash
+source "$BASH_LIB_DIR/spinner.bash"
 
 tick_time=0.1
 total_work=10

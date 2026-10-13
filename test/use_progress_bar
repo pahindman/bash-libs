@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source progress_bar.bash
+source "$BASH_LIB_DIR/progress_bar.bash"
 
 do-work() {
 	local time=0.1

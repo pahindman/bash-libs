@@ -6,17 +6,19 @@ setup() {
 
 	LINES=24
 	COLUMNS=80
+	export BASH_LIB_DIR
+	BASH_LIB_DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")/.." >/dev/null 2>&1 && pwd)"
 }
 
 # bats file_tags=terminal
 
 @test "terminal bottom margin reserve configures the reserved lines and translates line numbers" {
-	source terminal.bash
+	source "$BASH_LIB_DIR/terminal.bash"
 	terminal::bottom_margin::reserve 2 24 >/dev/null 2>&1
 	assert_equal "$terminal_internal__bottom_margin_size" "2"
 
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::bottom_margin::reserve 2 24 >/dev/null 2>&1
 		printf "%s\n" "$(terminal_internal::translate_bottom_margin_line_to_terminal_line 1 24)"
 	'
@@ -26,7 +28,7 @@ setup() {
 
 @test "terminal bottom margin replace_line emits the expected cursor movement and text" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::bottom_margin::reserve 2 24
 		terminal::bottom_margin::replace_line 1 24 "margin text"
 	'
@@ -38,7 +40,7 @@ setup() {
 
 @test "terminal bottom margin erase clears each line in the reserved region" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::bottom_margin::reserve 2 24
 		terminal::bottom_margin::erase 2 24
 	'
@@ -50,7 +52,7 @@ setup() {
 
 @test "terminal get_cursor_location returns the expected value" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		printf "\e[12;34R" | terminal::internal::get_cursor_location 2>/dev/null
 	'
 	assert_success
@@ -59,7 +61,7 @@ setup() {
 
 @test "terminal get_row returns the expected value" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::get_row "12;34"
 	'
 	assert_success
@@ -68,7 +70,7 @@ setup() {
 
 @test "terminal get_column returns the expected value" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::get_column "12;34"
 	'
 	assert_success
@@ -77,7 +79,7 @@ setup() {
 
 @test "terminal set_scroll_region preserves cursor state while configuring the scroll region" {
 	run bash -c '
-		source terminal.bash
+		source "$BASH_LIB_DIR/terminal.bash"
 		terminal::set_scroll_region 1 20
 	'
 	assert_success
